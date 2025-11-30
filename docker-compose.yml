@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+    # ------------------------------------
+    # 1. LAYANAN APLIKASI (PHP & NGINX)
+    # ------------------------------------
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        container_name: simdek_app
+        restart: unless-stopped
+        tty: true
+        ports:
+            # Mengakses aplikasi melalui port 8000 host
+            - "8000:80"
+        volumes:
+            # Mount kode sumber lokal ke dalam container
+            - .:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        environment:
+            # Mengganti host DB, Redis, dan Mailpit agar mengarah ke service Docker
+            DB_HOST: db
+            DB_DATABASE: ${DB_DATABASE:-laravel} # Mengambil dari .env (default: laravel)
+            DB_USERNAME: ${DB_USERNAME:-root}   # Mengambil dari .env (default: root)
+            DB_PASSWORD: ${DB_PASSWORD:-}       # Mengambil dari .env (default: kosong)
+            REDIS_HOST: redis
+            MAIL_HOST: mailpit
+            MAIL_PORT: 1025
+            PHP_IDE_CONFIG: "serverName=simdek"
+        depends_on:
+            - db
+            - redis
+            - mailpit
+
+    # ------------------------------------
+    # 2. LAYANAN DATABASE (MYSQL)
+    # ------------------------------------
+    db:
+        image: mysql:8.0
+        container_name: simdek_db
+        restart: unless-stopped
+        ports:
+            # Opsional: Membuka port database ke host
+            - "3306:3306"
+        environment:
+            # Menggunakan variabel dari .env
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+            MYSQL_USER: ${DB_USERNAME:-root}
+            # Karena DB_USERNAME Anda 'root', kita atur kata sandi root
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes" # Mengizinkan password kosong jika .env kosong
+        volumes:
+            - simdek_dbdata:/var/lib/mysql
+
+    # ------------------------------------
+    # 3. LAYANAN REDIS
+    # ------------------------------------
+    # redis:
+    #     image: redis:alpine
+    #     container_name: simdek_redis
+    #     restart: unless-stopped
+    #     ports:
+    #         # Opsional: Membuka port Redis ke host
+    #         - "6379:6379"
+
+    # ------------------------------------
+    # 4. LAYANAN MAILPIT (Local SMTP Server)
+    # ------------------------------------
+    # mailpit:
+    #     image: docker.io/mailpit/mailpit:latest
+    #     container_name: simdek_mailpit
+    #     restart: unless-stopped
+    #     ports:
+    #         # Port SMTP untuk kirim email dari aplikasi
+    #         - "1025:1025"
+    #         # Port HTTP untuk melihat email di browser
+    #         - "8025:8025"
+    #     environment:
+    #         # Menghapus email setelah 7 hari
+    #         MP_MAX_DELIVERY_ATTEMPTS: 1
+    #         MP_MAX_DELIVERY_RETRY_DELAY: 10
+    #         MP_MAX_MESSAGES: 500
+
+    # ------------------------------------
+    # 5. LAYANAN COMPOSER (Untuk Development)
+    # ------------------------------------
+    composer:
+        image: composer:2
+        container_name: simdek_composer
+        volumes:
+            - .:/var/www/html
+        working_dir: /var/www/html
+        user: root
+        command: ["composer", "install", "--ignore-platform-reqs"]
+        depends_on:
+            - app
+
+volumes:
+    simdek_dbdata:
+        driver: local
