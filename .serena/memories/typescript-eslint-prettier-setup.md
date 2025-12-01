@@ -5,12 +5,14 @@
 This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 
 ### Frontend Stack
+
 - **Vue 3.2.37** with Composition API (`<script setup>`)
 - **Vuetify 3.11.0** for Material Design components
 - **Vite 5.0.0** as build tool
 - **TypeScript 5.9.3** for type safety
 
 ### Code Quality Tools
+
 - **ESLint 9.39.1** with flat config format
 - **Prettier 3.7.3** for code formatting
 - **vue-tsc** for Vue TypeScript type checking
@@ -18,6 +20,7 @@ This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 ## Configuration Files
 
 ### TypeScript (`tsconfig.json`)
+
 - Target: ES2020
 - Module: ESNext
 - Path alias: `@/*` → `resources/js/*`
@@ -25,6 +28,7 @@ This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 - Includes: `resources/js/**/*.{ts,tsx,vue}`
 
 ### ESLint (`eslint.config.js`)
+
 - Flat config format (ESLint 9+)
 - Plugins: vue, typescript-eslint
 - Integration with Prettier
@@ -32,6 +36,7 @@ This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 - Ignores: `vendor/`, `node_modules/`, `public/`, `bootstrap/`
 
 ### Prettier (`.prettierrc`)
+
 - Single quotes: `true`
 - Tab width: 2 spaces
 - Print width: 100 characters
@@ -41,12 +46,14 @@ This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 ## File Locations
 
 ### Source Files
+
 - **Entry point**: `resources/js/app.ts`
 - **Vite config**: `vite.config.ts`
 - **Vue components**: `resources/js/components/*.vue`
 - **Type definitions**: `resources/js/vite-env.d.ts`
 
 ### Config Files
+
 - `tsconfig.json` - TypeScript configuration
 - `eslint.config.js` - ESLint configuration
 - `.prettierrc` - Prettier configuration
@@ -69,18 +76,21 @@ This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 ## Code Conventions
 
 ### Vue Components
+
 - Use `<script setup lang="ts">` syntax
 - Script tags come before template
 - Use Composition API with imports from 'vue'
 - Self-closing tags for all components
 
 ### TypeScript
+
 - Explicit types for function parameters
 - Avoid `any` type (ESLint warning)
 - Use type inference when obvious
 - Prefix unused variables with `_`
 
 ### Imports
+
 - Use single quotes
 - Path alias `@/` for `resources/js/`
 - Group imports: external, internal, components
@@ -88,11 +98,13 @@ This is a Laravel 10 + Vue 3 + Vuetify project with Docker support.
 ## Docker Integration
 
 The project runs in Docker with:
+
 - **App container**: PHP 8.2 FPM with Laravel
 - **Node container**: Runs Vite dev server on port 5173
 - **DB container**: MySQL 8.0
 
 ### HMR (Hot Module Replacement)
+
 - Enabled through Vite
 - Works across Docker network
 - Configured in `vite.config.ts`
@@ -126,11 +138,13 @@ The project runs in Docker with:
 ## Common Tasks
 
 ### Adding a new Vue component
+
 1. Create `.vue` file with `<script setup lang="ts">`
 2. Import types from Vue if needed
 3. Use TypeScript for all logic
 
 ### Checking code quality
+
 ```bash
 npm run type-check  # TypeScript errors
 npm run lint:check  # ESLint errors
@@ -138,6 +152,7 @@ npm run format:check  # Prettier formatting
 ```
 
 ### Before committing
+
 ```bash
 npm run format  # Auto-format
 npm run lint    # Auto-fix linting
