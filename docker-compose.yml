@@ -1,80 +1,80 @@
 services:
-    # ------------------------------------
-    # 1. LAYANAN APLIKASI (PHP & NGINX)
-    # ------------------------------------
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile.dev
-        container_name: simdek_app
-        restart: unless-stopped
-        tty: true
-        ports:
-            # Mengakses aplikasi melalui port 8000 host
-            - "8000:80"
-        volumes:
-            # Mount kode sumber lokal ke dalam container
-            - .:/var/www/html
-            - ./docker/nginx/default.conf:/etc/nginx/http.d/default.conf
-        environment:
-            # Mengganti host DB, Redis, dan Mailpit agar mengarah ke service Docker
-            DB_HOST: db
-            DB_DATABASE: ${DB_DATABASE:-laravel} # Mengambil dari .env (default: laravel)
-            DB_USERNAME: ${DB_USERNAME:-root}   # Mengambil dari .env (default: root)
-            DB_PASSWORD: ${DB_PASSWORD:-}       # Mengambil dari .env (default: kosong)
-            REDIS_HOST: redis
-            MAIL_HOST: mailpit
-            MAIL_PORT: 1025
-            PHP_IDE_CONFIG: "serverName=simdek"
-        depends_on:
-            - db
-            # - redis
-            # - mailpit
+  # ------------------------------------
+  # 1. LAYANAN APLIKASI (PHP & NGINX)
+  # ------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: simdek_app
+    restart: unless-stopped
+    tty: true
+    ports:
+      # Mengakses aplikasi melalui port 8000 host
+      - '8000:80'
+    volumes:
+      # Mount kode sumber lokal ke dalam container
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/http.d/default.conf
+    environment:
+      # Mengganti host DB, Redis, dan Mailpit agar mengarah ke service Docker
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE:-laravel} # Mengambil dari .env (default: laravel)
+      DB_USERNAME: ${DB_USERNAME:-root} # Mengambil dari .env (default: root)
+      DB_PASSWORD: ${DB_PASSWORD:-} # Mengambil dari .env (default: kosong)
+      REDIS_HOST: redis
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      PHP_IDE_CONFIG: 'serverName=simdek'
+    depends_on:
+      - db
+      # - redis
+      # - mailpit
 
-    # ------------------------------------
-    # 2. LAYANAN DATABASE (MYSQL)
-    # ------------------------------------
-    db:
-        image: mysql:8.0
-        container_name: simdek_db
-        restart: unless-stopped
-        ports:
-            # Opsional: Membuka port database ke host
-            - "3306:3306"
-        environment:
-            # Menggunakan variabel dari .env
-            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes" # Mengizinkan password kosong jika .env kosong
-        volumes:
-            - simdek_dbdata:/var/lib/mysql
+  # ------------------------------------
+  # 2. LAYANAN DATABASE (MYSQL)
+  # ------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: simdek_db
+    restart: unless-stopped
+    ports:
+      # Opsional: Membuka port database ke host
+      - '3306:3306'
+    environment:
+      # Menggunakan variabel dari .env
+      MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes' # Mengizinkan password kosong jika .env kosong
+    volumes:
+      - simdek_dbdata:/var/lib/mysql
 
-    # ------------------------------------
-    # 3. LAYANAN REDIS
-    # ------------------------------------
-    # redis:
-    #     image: redis:alpine
-    #     container_name: simdek_redis
-    #     restart: unless-stopped
-    #     ports:
-    #         # Opsional: Membuka port Redis ke host
-    #         - "6379:6379"
+  # ------------------------------------
+  # 3. LAYANAN REDIS
+  # ------------------------------------
+  # redis:
+  #     image: redis:alpine
+  #     container_name: simdek_redis
+  #     restart: unless-stopped
+  #     ports:
+  #         # Opsional: Membuka port Redis ke host
+  #         - "6379:6379"
 
-    # ------------------------------------
-    # 5. LAYANAN NODE.JS (Untuk Development - npm/vite)
-    # ------------------------------------
-    node:
-        image: node:18-alpine
-        container_name: simdek_node
-        volumes:
-            - .:/var/www/html
-        working_dir: /var/www/html
-        command: sh -c "npm install && npm run dev"
-        ports:
-            - "5173:5173"
-        depends_on:
-            - app
+  # ------------------------------------
+  # 5. LAYANAN NODE.JS (Untuk Development - npm/vite)
+  # ------------------------------------
+  node:
+    image: node:18-alpine
+    container_name: simdek_node
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - '5173:5173'
+    depends_on:
+      - app
 
 volumes:
-    simdek_dbdata:
-        driver: local
+  simdek_dbdata:
+    driver: local

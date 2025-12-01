@@ -1,0 +1,16 @@
+# Ignore build outputs
+dist
+build
+public/build
+public/hot
+
+# Ignore dependencies
+node_modules
+vendor
+
+# Ignore Laravel specific
+storage
+bootstrap/cache
+
+# Ignore compiled files
+*.compiled.*
