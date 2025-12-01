@@ -4,8 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import './bootstrap';
-import { createApp } from 'vue';
+import "./bootstrap";
+import { createApp } from "vue";
+
+// Vuetify
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -17,7 +24,13 @@ import { createApp } from 'vue';
 
 // import ExampleComponent from './components/ExampleComponent.vue';
 // app.component('example-component', ExampleComponent);
-import App from './components/App.vue'; // <-- Impor komponen root
+import App from "./components/App.vue"; // <-- Impor komponen root
+
+const vuetify = createVuetify({
+    components,
+    directives,
+});
+
 const app = createApp(App);
 /**
  * The following block of code may be used to automatically register your
@@ -37,4 +50,4 @@ const app = createApp(App);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.mount('#app');
+app.use(vuetify).mount("#app");
