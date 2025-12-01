@@ -26,6 +26,12 @@ RUN mkdir -p /run/nginx
 WORKDIR /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
+# Create entrypoint script
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Atur entrypoint menggunakan supervisor (untuk menjalankan Nginx dan PHP-FPM bersamaan)
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
