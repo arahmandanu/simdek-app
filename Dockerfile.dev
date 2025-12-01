@@ -1,0 +1,31 @@
+# Base image menggunakan PHP 8.2 FPM Alpine
+FROM php:8.2-fpm-alpine
+
+# Install dependencies sistem yang diperlukan
+RUN apk add --no-cache \
+    nginx \
+    mysql-client \
+    git \
+    supervisor \
+    openssl \
+    bash \
+    procps
+
+# Install ekstensi PHP yang dibutuhkan Laravel
+RUN docker-php-ext-install pdo pdo_mysql opcache
+RUN docker-php-ext-enable opcache
+
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Hapus default Nginx config dan buat struktur direktori
+RUN rm -rf /etc/nginx/conf.d/*
+RUN mkdir -p /run/nginx
+
+# Atur user dan permission
+WORKDIR /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+
+# Atur entrypoint menggunakan supervisor (untuk menjalankan Nginx dan PHP-FPM bersamaan)
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

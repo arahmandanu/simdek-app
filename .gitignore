@@ -17,3 +17,10 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+*supervisor.sock
+.DS_Store
+docker-compose.override.yml
+docker-compose.prod.yml
+docker-compose.test.yml
+*supervisord.log
+supervisorrd*
