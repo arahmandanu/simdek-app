@@ -41,7 +41,7 @@ const { syncStore } = useOfflineSync();
 const duplicatedMessages = computed(() => {
   const messages = displayMessages.value;
   if (messages.length === 0) {
-    return ['Selamat datang di SIGMA Frontliner Kiosk', 'Selamat datang di SIGMA Frontliner Kiosk'];
+    return [];
   }
   // Duplicate the array to create seamless loop
   return [...messages, ...messages];

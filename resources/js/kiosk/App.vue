@@ -103,8 +103,8 @@ const returnToAttractMode = () => {
   showPrintDialog.value = false;
   selectedService.value = null;
 
-  // Reset slider to first slide
-  sliderStore.reset();
+  // Reset slider to first slide (don't clear slides)
+  sliderStore.goToSlide(0);
 
   console.log('[Kiosk] Returned to attract mode');
 };
