@@ -9,7 +9,9 @@ RUN apk add --no-cache \
     supervisor \
     openssl \
     bash \
-    procps
+    procps \
+    unzip \
+    zip
 
 # Install ekstensi PHP yang dibutuhkan Laravel
 RUN docker-php-ext-install pdo pdo_mysql opcache

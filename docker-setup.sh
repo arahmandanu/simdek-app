@@ -130,58 +130,7 @@ echo ""
 
 # Step 10: Initialize Kiosk Data
 echo "Step 10: Initializing kiosk data..."
-docker compose exec app mkdir -p public/kiosk
-
-# Create default config.json
-docker compose exec app sh -c 'cat > public/kiosk/config.json << '\''EOF'\''
-{
-  "theme": {
-    "primaryColor": "#c2282a",
-    "logo": "/logo.png",
-    "headerTitle": "SIGMA - Sistem Informasi Desa"
-  },
-  "idleTimeout": {
-    "enabled": true,
-    "duration": 15000
-  }
-}
-EOF'
-
-# Create default slides.json
-docker compose exec app sh -c 'cat > public/kiosk/slides.json << '\''EOF'\''
-{
-  "slides": []
-}
-EOF'
-
-# Create default services.json
-docker compose exec app sh -c 'cat > public/kiosk/services.json << '\''EOF'\''
-{
-  "services": []
-}
-EOF'
-
-# Create default running-text.json
-docker compose exec app sh -c 'cat > public/kiosk/running-text.json << '\''EOF'\''
-{
-  "messages": [
-    {
-      "id": 1,
-      "text": "Selamat datang di SIGMA Frontliner Kiosk",
-      "textMakassar": "Marampungak ri SIGMA Frontliner Kiosk",
-      "order": 1
-    }
-  ]
-}
-EOF'
-
-# Create default analytics.json
-docker compose exec app sh -c 'cat > public/kiosk/analytics.json << '\''EOF'\''
-{
-  "events": []
-}
-EOF'
-
+docker compose exec app php artisan db:seed --class=KioskDataSeeder
 print_success "Kiosk data initialized"
 echo ""
 

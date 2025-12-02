@@ -15,7 +15,7 @@ export default defineConfig({
   },
   plugins: [
     laravel({
-      input: ['resources/sass/app.scss', 'resources/js/app.ts', 'resources/js/kiosk/main.ts'],
+      input: ['resources/sass/app.scss', 'resources/js/kiosk/main.ts'],
       refresh: true,
     }),
     vue({
@@ -38,8 +38,8 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'fullscreen',
         orientation: 'portrait',
-        start_url: '/kiosk',
-        scope: '/kiosk',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
             src: 'pwa-192x192.png',

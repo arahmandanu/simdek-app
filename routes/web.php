@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('app');
-});
-
-// Kiosk route
-Route::get('/kiosk', function () {
     return view('kiosk');
 });
+
+// Catch-all route for Vue Router HTML5 history mode
+Route::get('/{any}', function () {
+    return view('kiosk');
+})->where('any', '.*');

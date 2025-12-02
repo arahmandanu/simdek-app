@@ -18,5 +18,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        // Seed kiosk data
+        $this->call([
+            KioskDataSeeder::class,
+        ]);
     }
 }

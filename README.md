@@ -66,6 +66,8 @@ Konfigurasi Database: Buka file .env dan sesuaikan pengaturan database Anda:
 php artisan migrate:fresh --seed
 ```
 
+**Note**: This will automatically seed the kiosk data (slides, services, config, etc.) with default values.
+
 5. Instalasi dan Kompilasi Aset Front-end (Jika Diperlukan)
    Anda perlu menginstal dan mengkompilasi aset:
    Bash
@@ -89,6 +91,23 @@ Aplikasi kini dapat diakses di
 http://127.0.0.1:8000.
 ```
 
+7. Initialize Kiosk Data (Optional)
+   If you need to reset or reinitialize the kiosk data (slides, services, config):
+
+```Bash
+php artisan db:seed --class=KioskDataSeeder
+# Or use the helper script:
+./setup-kiosk-data.sh
+```
+
+This will populate:
+
+- `public/kiosk/slides.json` with 5 default slides
+- `public/kiosk/services.json` with 7 default services
+- `public/kiosk/config.json` with theme configuration
+- `public/kiosk/running-text.json` with welcome messages
+- `public/kiosk/analytics.json` for tracking
+
 ### 🚀 Fitur Utama
 
 SIMDEK mencakup berbagai modul untuk mendukung operasional Desa/Kelurahan:
@@ -110,4 +129,4 @@ Modul ini mencakup pengajuan dan/atau pembuatan surat-surat administratif:
 
     Surat Keterangan: Domisili, Usaha, SKTM, Dll.
     Surat Pengantar: Nikah, SKCK, Dll.
-    Surat Lainnya: Permohonan Bantuan Sosial, Izin Penebangan/Pengangkutan Kayu.
+    Surat Lainnya: Permohonan Bantuan Sosial, Izin Penebangan/ Pengangkutan Kayu.
