@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('app');
 });
+
+// Kiosk route
+Route::get('/kiosk', function () {
+    return view('kiosk');
+});

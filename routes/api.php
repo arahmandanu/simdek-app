@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KioskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Kiosk API endpoints (public, no authentication)
+Route::prefix('kiosk')->group(function () {
+    Route::get('/config', [KioskController::class, 'getConfig']);
+    Route::get('/slides', [KioskController::class, 'getSlides']);
+    Route::get('/services', [KioskController::class, 'getServices']);
+    Route::get('/running-text', [KioskController::class, 'getRunningText']);
+    Route::post('/analytics/track', [KioskController::class, 'trackAnalytics']);
 });

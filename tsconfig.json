@@ -20,6 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* Deprecations */
+    "ignoreDeprecations": "6.0",
+
     /* Path aliases */
     "baseUrl": ".",
     "paths": {
@@ -35,5 +38,5 @@
     "resources/js/**/*.tsx",
     "resources/js/**/*.vue"
   ],
-  "exclude": ["node_modules", "vendor"]
+  "exclude": ["node_modules", "vendor", "resources/js/kiosk/__tests__/**"]
 }

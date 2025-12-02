@@ -78,5 +78,13 @@ export default typescriptEslint.config(
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     },
   },
+  // Relaxed rules for test files
+  {
+    files: ['**/__tests__/**/*.{ts,tsx}', '**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'vue/one-component-per-file': 'off',
+    },
+  },
   eslintConfigPrettier
 );

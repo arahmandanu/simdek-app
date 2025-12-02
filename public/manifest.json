@@ -1,0 +1,17 @@
+{
+    "name": "SIMDEK Kiosk",
+    "short_name": "SIMDEK",
+    "description": "Sistem Informasi Manajemen Desa Kiosk Application",
+    "start_url": "/kiosk",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "landscape",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        }
+    ]
+}
