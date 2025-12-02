@@ -41,7 +41,6 @@ export type ServiceAction = 'navigate' | 'print' | 'external';
 export interface ServiceItem {
   id: number;
   title: string;
-  titleMakassar: string;
   icon: string; // MDI icon name
   action: ServiceAction;
   route: string;
@@ -58,7 +57,6 @@ export interface ServicesResponse {
 export interface RunningTextMessage {
   id: number;
   text: string;
-  textMakassar: string;
   order: number;
 }
 

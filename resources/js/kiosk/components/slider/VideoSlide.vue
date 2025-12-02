@@ -41,6 +41,7 @@ interface Props {
 
 interface Emits {
   (e: 'ended'): void;
+  (e: 'duration-detected', duration: number): void;
 }
 
 const props = defineProps<Props>();
@@ -49,6 +50,7 @@ const emit = defineEmits<Emits>();
 const videoElement = ref<HTMLVideoElement | null>(null);
 const isLoading = ref(true);
 const hasError = ref(false);
+const videoDuration = ref<number>(0);
 
 const handleVideoEnd = () => {
   emit('ended');
@@ -60,8 +62,23 @@ const handleError = () => {
   console.error('Failed to load video:', props.slide.url);
 };
 
+const handleMetadataLoaded = () => {
+  if (videoElement.value) {
+    videoDuration.value = videoElement.value.duration;
+
+    // Emit the detected duration (in milliseconds)
+    if (isFinite(videoDuration.value) && videoDuration.value > 0) {
+      emit('duration-detected', videoDuration.value * 1000);
+      console.log(`Video duration detected: ${videoDuration.value}s`);
+    }
+  }
+};
+
 onMounted(() => {
   if (videoElement.value) {
+    // Handle metadata loaded to get video duration
+    videoElement.value.addEventListener('loadedmetadata', handleMetadataLoaded);
+
     videoElement.value.addEventListener('loadeddata', () => {
       isLoading.value = false;
     });
@@ -74,6 +91,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (videoElement.value) {
+    videoElement.value.removeEventListener('loadedmetadata', handleMetadataLoaded);
     videoElement.value.pause();
     videoElement.value.src = '';
   }

@@ -3,24 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class KioskController extends Controller
 {
+    /**
+     * Base path for kiosk data files
+     */
+    private $kioskPath;
+
+    public function __construct()
+    {
+        $this->kioskPath = public_path('kiosk');
+    }
+
     /**
      * Get kiosk configuration (theme, settings)
      */
     public function getConfig()
     {
-        $config = $this->loadJsonFile('kiosk/config.json', [
+        $config = $this->loadJsonFile('config.json', [
             'theme' => [
                 'primaryColor' => '#c2282a',
-                'logo' => '/images/logo-gowa.png',
+                'logo' => '/logo.png',
                 'headerTitle' => 'SIGMA - Sistem Informasi Desa'
             ],
             'idleTimeout' => [
                 'enabled' => true,
-                'duration' => 60000 // 60 seconds in milliseconds
+                'duration' => 15000 // 15 seconds in milliseconds
             ]
         ]);
 
@@ -32,7 +41,7 @@ class KioskController extends Controller
      */
     public function getSlides()
     {
-        $slides = $this->loadJsonFile('kiosk/slides.json', [
+        $slides = $this->loadJsonFile('slides.json', [
             'slides' => [
                 [
                     'id' => 1,
@@ -52,7 +61,7 @@ class KioskController extends Controller
      */
     public function getServices()
     {
-        $services = $this->loadJsonFile('kiosk/services.json', [
+        $services = $this->loadJsonFile('services.json', [
             'services' => [
                 [
                     'id' => 1,
@@ -74,7 +83,7 @@ class KioskController extends Controller
      */
     public function getRunningText()
     {
-        $runningText = $this->loadJsonFile('kiosk/running-text.json', [
+        $runningText = $this->loadJsonFile('running-text.json', [
             'messages' => [
                 [
                     'id' => 1,
@@ -100,7 +109,7 @@ class KioskController extends Controller
         ]);
 
         // Load existing analytics
-        $analytics = $this->loadJsonFile('kiosk/analytics.json', ['events' => []]);
+        $analytics = $this->loadJsonFile('analytics.json', ['events' => []]);
 
         // Add new event
         $analytics['events'][] = $validated;
@@ -111,7 +120,7 @@ class KioskController extends Controller
         }
 
         // Save analytics
-        Storage::put('kiosk/analytics.json', json_encode($analytics, JSON_PRETTY_PRINT));
+        $this->saveJsonFile('analytics.json', $analytics);
 
         return response()->json(['success' => true]);
     }
@@ -119,10 +128,12 @@ class KioskController extends Controller
     /**
      * Helper method to load JSON file with fallback
      */
-    private function loadJsonFile($path, $default = [])
+    private function loadJsonFile($filename, $default = [])
     {
-        if (Storage::exists($path)) {
-            $content = Storage::get($path);
+        $filepath = $this->kioskPath . '/' . $filename;
+
+        if (file_exists($filepath)) {
+            $content = file_get_contents($filepath);
             $data = json_decode($content, true);
 
             if (json_last_error() === JSON_ERROR_NONE) {
@@ -131,7 +142,21 @@ class KioskController extends Controller
         }
 
         // Return default and create file if it doesn't exist
-        Storage::put($path, json_encode($default, JSON_PRETTY_PRINT));
+        $this->saveJsonFile($filename, $default);
         return $default;
+    }
+
+    /**
+     * Helper method to save JSON file
+     */
+    private function saveJsonFile($filename, $data)
+    {
+        // Ensure kiosk directory exists
+        if (!is_dir($this->kioskPath)) {
+            mkdir($this->kioskPath, 0755, true);
+        }
+
+        $filepath = $this->kioskPath . '/' . $filename;
+        file_put_contents($filepath, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
 }

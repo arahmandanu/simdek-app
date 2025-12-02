@@ -1,20 +1,14 @@
 <template>
-  <v-card class="service-card" elevation="2" @click="handleClick">
+  <v-card class="service-card" elevation="2" @click="handleClick" v-ripple>
     <v-card-text class="service-card-content">
       <!-- Icon -->
       <div class="service-icon-wrapper">
         <v-icon :icon="service.icon" size="64" color="primary" />
       </div>
 
-      <!-- Title (Indonesian) -->
+      <!-- Title -->
       <h3 class="service-title">{{ service.title }}</h3>
-
-      <!-- Title (Makassar) - Bilingual -->
-      <p class="service-title-makassar">{{ service.titleMakassar }}</p>
     </v-card-text>
-
-    <!-- Ripple effect for touch feedback -->
-    <v-ripple />
   </v-card>
 </template>
 
@@ -80,16 +74,8 @@ const handleClick = () => {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.3;
-  margin-bottom: 0.5rem;
-  color: #212121;
-}
-
-.service-title-makassar {
-  font-size: 1.1rem;
-  font-weight: 400;
-  line-height: 1.3;
-  color: #757575;
   margin: 0;
+  color: #212121;
 }
 
 /* Portrait mode optimizations */
@@ -105,10 +91,6 @@ const handleClick = () => {
 
   .service-title {
     font-size: 1.3rem;
-  }
-
-  .service-title-makassar {
-    font-size: 1rem;
   }
 }
 
@@ -130,10 +112,6 @@ const handleClick = () => {
 
   .service-title {
     font-size: 1.75rem;
-  }
-
-  .service-title-makassar {
-    font-size: 1.25rem;
   }
 }
 

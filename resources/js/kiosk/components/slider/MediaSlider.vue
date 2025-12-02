@@ -76,7 +76,7 @@ const startAutoAdvance = () => {
   // Only set timer for images and PDFs (videos handle their own timing)
   if (currentSlide.value.type === 'image' || currentSlide.value.type === 'pdf') {
     const duration =
-      currentSlide.value.duration || (currentSlide.value.type === 'pdf' ? 30000 : 10000);
+      currentSlide.value.duration || (currentSlide.value.type === 'pdf' ? 15000 : 10000);
     autoAdvanceTimer = window.setTimeout(() => {
       sliderStore.nextSlide();
     }, duration);

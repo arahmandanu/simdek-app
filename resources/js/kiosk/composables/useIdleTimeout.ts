@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
-const IDLE_TIMEOUT = 60 * 1000; // 60 seconds
-const COUNTDOWN_START = 10 * 1000; // Show countdown at 10s remaining
+const IDLE_TIMEOUT = 15 * 1000; // 15 seconds
+const COUNTDOWN_START = 5 * 1000; // Show countdown at 5s remaining
 
 export function useIdleTimeout(callback: () => void) {
   let timeoutId: number | null = null;
@@ -25,14 +25,14 @@ export function useIdleTimeout(callback: () => void) {
   const resetTimer = () => {
     clearTimers();
     showCountdown.value = false;
-    countdownSeconds.value = 10;
+    countdownSeconds.value = 5;
     isIdle.value = false;
 
-    // Set main timeout (60 seconds total)
+    // Set main timeout (15 seconds total)
     timeoutId = window.setTimeout(() => {
-      // Start countdown (last 10 seconds)
+      // Start countdown (last 5 seconds)
       showCountdown.value = true;
-      let countdown = 10;
+      let countdown = 5;
       countdownSeconds.value = countdown;
 
       countdownIntervalId = window.setInterval(() => {

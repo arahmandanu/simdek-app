@@ -6,6 +6,9 @@
     <meta name="theme-color" content="#c2282a">
     <title>SIGMA Frontliner Kiosk</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">

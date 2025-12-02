@@ -58,7 +58,7 @@ php artisan cache:clear
 # Step 9: Create storage directories
 echo ""
 echo "📁 Setting up storage directories..."
-mkdir -p storage/app/kiosk
+mkdir -p public/kiosk
 mkdir -p storage/framework/cache
 mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
@@ -73,13 +73,13 @@ chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || true
 # Step 11: Create default kiosk data files if they don't exist
 echo ""
 echo "📄 Checking kiosk data files..."
-if [ ! -f "storage/app/kiosk/config.json" ]; then
+if [ ! -f "public/kiosk/config.json" ]; then
     echo "Creating default config.json..."
-    cat > storage/app/kiosk/config.json << 'EOF'
+    cat > public/kiosk/config.json << 'EOF'
 {
   "theme": {
     "primaryColor": "#c2282a",
-    "logo": "/images/logo-gowa.png",
+    "logo": "/logo.png",
     "headerTitle": "SIGMA Frontliner Kiosk"
   },
   "settings": {
@@ -90,27 +90,27 @@ if [ ! -f "storage/app/kiosk/config.json" ]; then
 EOF
 fi
 
-if [ ! -f "storage/app/kiosk/slides.json" ]; then
+if [ ! -f "public/kiosk/slides.json" ]; then
     echo "Creating default slides.json..."
-    cat > storage/app/kiosk/slides.json << 'EOF'
+    cat > public/kiosk/slides.json << 'EOF'
 {
   "slides": []
 }
 EOF
 fi
 
-if [ ! -f "storage/app/kiosk/services.json" ]; then
+if [ ! -f "public/kiosk/services.json" ]; then
     echo "Creating default services.json..."
-    cat > storage/app/kiosk/services.json << 'EOF'
+    cat > public/kiosk/services.json << 'EOF'
 {
   "services": []
 }
 EOF
 fi
 
-if [ ! -f "storage/app/kiosk/running-text.json" ]; then
+if [ ! -f "public/kiosk/running-text.json" ]; then
     echo "Creating default running-text.json..."
-    cat > storage/app/kiosk/running-text.json << 'EOF'
+    cat > public/kiosk/running-text.json << 'EOF'
 {
   "messages": [
     {
@@ -125,9 +125,9 @@ if [ ! -f "storage/app/kiosk/running-text.json" ]; then
 EOF
 fi
 
-if [ ! -f "storage/app/kiosk/analytics.json" ]; then
+if [ ! -f "public/kiosk/analytics.json" ]; then
     echo "Creating default analytics.json..."
-    cat > storage/app/kiosk/analytics.json << 'EOF'
+    cat > public/kiosk/analytics.json << 'EOF'
 {
   "events": []
 }

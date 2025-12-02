@@ -9,14 +9,16 @@
     <v-container fluid class="d-flex align-center justify-space-between pa-0 px-6">
       <!-- Logo Section -->
       <div class="logo-section d-flex align-center">
-        <v-img
-          :src="logoUrl"
-          :alt="headerTitle"
-          max-height="40"
-          max-width="40"
-          contain
-          class="mr-3"
-        />
+        <div class="logo-wrapper">
+          <v-img
+            :src="logoUrl"
+            :alt="headerTitle"
+            height="45"
+            width="45"
+            cover
+            class="logo-image"
+          />
+        </div>
         <div class="header-title">
           <h1 class="text-subtitle-1 font-weight-bold" :class="titleColor">
             {{ headerTitle }}
@@ -52,7 +54,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   mode: 'attract',
-  logoUrl: '/images/logo-gowa.png',
+  logoUrl: '/logo.png',
   headerTitle: 'SIGMA Frontliner Kiosk',
 });
 
@@ -98,6 +100,20 @@ const handleModeSwitch = () => {
 
 .logo-section {
   flex-shrink: 0;
+  gap: 0.75rem;
+}
+
+.logo-wrapper {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-image {
+  border-radius: 4px;
 }
 
 .header-title h1 {

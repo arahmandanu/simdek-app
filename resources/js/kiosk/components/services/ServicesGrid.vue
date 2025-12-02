@@ -22,9 +22,9 @@
         </v-col>
       </v-row>
 
-      <!-- Services Grid -->
-      <v-row v-else>
-        <v-col v-for="service in servicesStore.services" :key="service.id" cols="12" sm="6" md="4">
+      <!-- Services Grid - 2x2 layout -->
+      <v-row v-else justify="center">
+        <v-col v-for="service in servicesStore.services" :key="service.id" cols="6">
           <ServiceCard :service="service" @select="handleServiceSelect" />
         </v-col>
       </v-row>
@@ -64,11 +64,14 @@ onMounted(() => {
   height: 100%;
   overflow-y: auto;
   background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .services-grid {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
 }
 

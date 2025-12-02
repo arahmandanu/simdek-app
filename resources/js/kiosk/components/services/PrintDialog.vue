@@ -8,9 +8,7 @@
 
       <v-card-text class="pa-6 text-h6">
         <div class="dialog-message">
-          <p class="mb-4">
-            Dokumen ini akan dicetak / <span class="text-makassar">Pammari' anne napparepe</span>
-          </p>
+          <p class="mb-4">Dokumen ini akan dicetak</p>
           <p class="mb-0">Pastikan printer tersedia dan terhubung.</p>
         </div>
 
@@ -20,7 +18,7 @@
         <div class="service-info">
           <div class="info-row">
             <strong>Layanan:</strong>
-            <span>{{ service?.title }} / {{ service?.titleMakassar }}</span>
+            <span>{{ service?.title }}</span>
           </div>
         </div>
 
@@ -40,7 +38,7 @@
           class="action-btn"
           @click="handleCancel"
         >
-          Batal / <span class="text-makassar">Tassengka'</span>
+          Batal
         </v-btn>
         <v-btn
           color="primary"
@@ -52,7 +50,7 @@
           @click="handlePrint"
         >
           <v-icon icon="mdi-printer" class="mr-2" />
-          Cetak / <span class="text-makassar">Pammari'</span>
+          Cetak
         </v-btn>
       </v-card-actions>
     </v-card>
