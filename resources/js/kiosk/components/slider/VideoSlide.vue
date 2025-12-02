@@ -5,7 +5,6 @@
       class="video-player"
       :src="slide.url"
       autoplay
-      muted
       playsinline
       @ended="handleVideoEnd"
       @error="handleError"
