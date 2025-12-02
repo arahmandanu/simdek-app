@@ -82,7 +82,7 @@ const showSlider = computed(() => kioskMode.value === 'attract');
 const showServices = computed(() => kioskMode.value === 'services');
 
 // Idle timeout - return to attract mode after 60 seconds
-const { showCountdown, countdownSeconds, resetTimer } = useIdleTimeout(() => {
+const { showCountdown, countdownSeconds, resetTimer, stopTimer } = useIdleTimeout(() => {
   returnToAttractMode();
 });
 
@@ -91,9 +91,14 @@ const handleModeSwitch = (newMode: KioskMode) => {
   kioskMode.value = newMode;
   console.log(`[Kiosk] Mode switched to: ${newMode}`);
 
-  // Reset idle timer when switching to services mode
   if (newMode === 'services') {
+    // Start idle timer when switching to services mode
     resetTimer();
+  } else if (newMode === 'attract') {
+    // Stop idle timer when switching to attract mode
+    stopTimer();
+    // Reset slider to first slide
+    sliderStore.goToSlide(0);
   }
 };
 
@@ -102,6 +107,9 @@ const returnToAttractMode = () => {
   kioskMode.value = 'attract';
   showPrintDialog.value = false;
   selectedService.value = null;
+
+  // Stop the idle timer
+  stopTimer();
 
   // Reset slider to first slide (don't clear slides)
   sliderStore.goToSlide(0);

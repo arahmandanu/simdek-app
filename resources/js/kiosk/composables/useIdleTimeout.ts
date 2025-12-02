@@ -65,8 +65,8 @@ export function useIdleTimeout(callback: () => void) {
       window.addEventListener(event, handleUserActivity, { passive: true });
     });
 
-    // Start the timer
-    resetTimer();
+    // Don't start the timer automatically - let the parent component control it
+    // resetTimer();
   });
 
   onUnmounted(() => {
@@ -79,8 +79,16 @@ export function useIdleTimeout(callback: () => void) {
     });
   });
 
+  const stopTimer = () => {
+    clearTimers();
+    showCountdown.value = false;
+    countdownSeconds.value = 5;
+    isIdle.value = false;
+  };
+
   return {
     resetTimer,
+    stopTimer,
     showCountdown,
     countdownSeconds,
     isIdle,
