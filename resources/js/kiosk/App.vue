@@ -112,11 +112,14 @@ const returnToAttractMode = () => {
 // Handle service selection
 const handleServiceSelect = (service: ServiceItem) => {
   console.log('[Kiosk] Service selected:', service.title);
+  console.log('[Kiosk] Service object:', JSON.stringify(service, null, 2));
+  console.log('[Kiosk] Service action:', service.action);
 
   selectedService.value = service;
 
   // Handle different service actions
   if (service.action === 'print') {
+    console.log('[Kiosk] Opening print dialog...');
     showPrintDialog.value = true;
   } else if (service.action === 'navigate') {
     // Future: Navigate to detail view
@@ -124,6 +127,8 @@ const handleServiceSelect = (service: ServiceItem) => {
   } else if (service.action === 'external') {
     // Future: Open external link
     console.log('[Kiosk] Open external:', service.route);
+  } else {
+    console.log('[Kiosk] Unknown action or no action defined');
   }
 
   // Reset idle timer on interaction

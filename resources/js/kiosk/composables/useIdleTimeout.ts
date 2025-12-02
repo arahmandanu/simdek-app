@@ -59,7 +59,7 @@ export function useIdleTimeout(callback: () => void) {
     // List of events that indicate user activity
     // Note: 'mousemove' is excluded to prevent issues with PDF iframes
     // where mouse events don't bubble up properly
-    const events = ['touchstart', 'touchmove', 'mousedown', 'keydown'];
+    const events = ['touchstart', 'touchmove', 'mousedown', 'click', 'keydown'];
 
     events.forEach((event) => {
       window.addEventListener(event, handleUserActivity, { passive: true });
@@ -72,7 +72,7 @@ export function useIdleTimeout(callback: () => void) {
   onUnmounted(() => {
     clearTimers();
 
-    const events = ['touchstart', 'touchmove', 'mousedown', 'keydown'];
+    const events = ['touchstart', 'touchmove', 'mousedown', 'click', 'keydown'];
 
     events.forEach((event) => {
       window.removeEventListener(event, handleUserActivity);

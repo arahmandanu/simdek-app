@@ -83,7 +83,8 @@ watch(
   () => props.show,
   (newValue) => {
     internalShow.value = newValue;
-  }
+  },
+  { immediate: true }
 );
 
 watch(internalShow, (newValue) => {

@@ -22,13 +22,6 @@
         <p class="text-h6 mt-4">Gambar tidak dapat dimuat</p>
       </div>
     </v-fade-transition>
-
-    <!-- Title overlay (if title exists) -->
-    <v-fade-transition>
-      <div v-if="slide.title && !isLoading && !hasError" class="title-overlay">
-        <h3 class="text-h5">{{ slide.title }}</h3>
-      </div>
-    </v-fade-transition>
   </div>
 </template>
 
