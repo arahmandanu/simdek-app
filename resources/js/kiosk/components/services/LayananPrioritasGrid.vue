@@ -2,7 +2,7 @@
   <div class="layanan-prioritas-container">
     <v-container fluid class="prioritas-grid">
       <!-- Header -->
-      <v-row justify="center" class="mb-2">
+      <v-row justify="center">
         <v-col cols="12" class="text-center">
           <div class="header-section">
             <div class="number-badge">7</div>
@@ -151,7 +151,7 @@ const handleServiceClick = (service: PrioritasService) => {
 }
 
 .prioritas-grid {
-  padding: 1.25rem;
+  padding: 3rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
@@ -304,7 +304,7 @@ const handleServiceClick = (service: PrioritasService) => {
 
 .service-title {
   flex: 1;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #1a1a1a;
   letter-spacing: -0.3px;
@@ -409,7 +409,7 @@ const handleServiceClick = (service: PrioritasService) => {
   }
 
   .service-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 }
 
