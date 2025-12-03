@@ -5,34 +5,28 @@
       class="video-player"
       :src="slide.url"
       autoplay
+      muted
       playsinline
-      @ended="handleVideoEnd"
-      @error="handleError"
+      preload="auto"
     >
       <source :src="slide.url" type="video/mp4" />
       Browser Anda tidak mendukung video HTML5.
     </video>
 
-    <!-- Loading indicator -->
-    <v-fade-transition>
-      <div v-if="isLoading" class="loading-overlay">
-        <v-progress-circular indeterminate size="64" color="white" />
-      </div>
-    </v-fade-transition>
-
-    <!-- Error state -->
-    <v-fade-transition>
-      <div v-if="hasError" class="error-overlay">
-        <v-icon size="64" color="error">mdi-alert-circle</v-icon>
-        <p class="text-h6 mt-4">Video tidak dapat dimuat</p>
-      </div>
-    </v-fade-transition>
+    <MediaLoadingState
+      :is-loading="isLoading"
+      :has-error="hasError"
+      error-message="Video tidak dapat dimuat"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import type { SlideItem } from '@/kiosk/types';
+import { useMediaLoader } from '@/kiosk/composables/useMediaLoader';
+import { useVideoPlayer } from '@/kiosk/composables/useVideoPlayer';
+import MediaLoadingState from './MediaLoadingState.vue';
 
 interface Props {
   slide: SlideItem;
@@ -47,53 +41,17 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const videoElement = ref<HTMLVideoElement | null>(null);
-const isLoading = ref(true);
-const hasError = ref(false);
-const videoDuration = ref<number>(0);
+const { isLoading, hasError, handleLoad, handleError } = useMediaLoader();
 
-const handleVideoEnd = () => {
-  emit('ended');
-};
-
-const handleError = () => {
-  isLoading.value = false;
-  hasError.value = true;
-  console.error('Failed to load video:', props.slide.url);
-};
-
-const handleMetadataLoaded = () => {
-  if (videoElement.value) {
-    videoDuration.value = videoElement.value.duration;
-
-    // Emit the detected duration (in milliseconds)
-    if (isFinite(videoDuration.value) && videoDuration.value > 0) {
-      emit('duration-detected', videoDuration.value * 1000);
-      console.log(`Video duration detected: ${videoDuration.value}s`);
-    }
-  }
-};
-
-onMounted(() => {
-  if (videoElement.value) {
-    // Handle metadata loaded to get video duration
-    videoElement.value.addEventListener('loadedmetadata', handleMetadataLoaded);
-
-    videoElement.value.addEventListener('loadeddata', () => {
-      isLoading.value = false;
-    });
-
-    videoElement.value.addEventListener('canplay', () => {
-      isLoading.value = false;
-    });
-  }
+const { setupListeners } = useVideoPlayer(videoElement, props.slide.url, {
+  onEnded: () => emit('ended'),
+  onError: (error) => handleError(error),
+  onDurationDetected: (duration) => emit('duration-detected', duration),
+  onReady: handleLoad,
 });
 
-onUnmounted(() => {
-  if (videoElement.value) {
-    videoElement.value.removeEventListener('loadedmetadata', handleMetadataLoaded);
-    videoElement.value.pause();
-    videoElement.value.src = '';
-  }
+onMounted(() => {
+  setupListeners();
 });
 </script>
 

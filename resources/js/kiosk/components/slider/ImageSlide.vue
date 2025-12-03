@@ -5,29 +5,21 @@
       :alt="slide.title || 'Slide image'"
       class="slide-image"
       @load="handleLoad"
-      @error="handleError"
+      @error="handleImageError"
     />
 
-    <!-- Loading indicator -->
-    <v-fade-transition>
-      <div v-if="isLoading" class="loading-overlay">
-        <v-progress-circular indeterminate size="64" color="white" />
-      </div>
-    </v-fade-transition>
-
-    <!-- Error state -->
-    <v-fade-transition>
-      <div v-if="hasError" class="error-overlay">
-        <v-icon size="64" color="error">mdi-alert-circle</v-icon>
-        <p class="text-h6 mt-4">Gambar tidak dapat dimuat</p>
-      </div>
-    </v-fade-transition>
+    <MediaLoadingState
+      :is-loading="isLoading"
+      :has-error="hasError"
+      error-message="Gambar tidak dapat dimuat"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import type { SlideItem } from '@/kiosk/types';
+import { useMediaLoader } from '@/kiosk/composables/useMediaLoader';
+import MediaLoadingState from './MediaLoadingState.vue';
 
 interface Props {
   slide: SlideItem;
@@ -35,17 +27,10 @@ interface Props {
 
 defineProps<Props>();
 
-const isLoading = ref(true);
-const hasError = ref(false);
+const { isLoading, hasError, handleLoad, handleError } = useMediaLoader();
 
-const handleLoad = () => {
-  isLoading.value = false;
-};
-
-const handleError = () => {
-  isLoading.value = false;
-  hasError.value = true;
-  console.error('Failed to load image');
+const handleImageError = () => {
+  handleError('Failed to load image');
 };
 </script>
 

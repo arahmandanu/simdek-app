@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="primary" app fixed height="5vh" class="kiosk-footer">
+  <v-footer color="primary" app fixed height="7vh" class="kiosk-footer">
     <v-container fluid class="pa-0">
       <div class="marquee-container">
         <div class="marquee-content" :style="marqueeStyle">
@@ -80,7 +80,7 @@ onMounted(async () => {
   right: 0;
   z-index: 1000;
   overflow: hidden;
-  min-height: 5vh;
+  min-height: 7vh;
 }
 
 .marquee-container {
@@ -103,7 +103,7 @@ onMounted(async () => {
   display: inline-block;
   padding: 0 4rem;
   color: white;
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
@@ -125,14 +125,14 @@ onMounted(async () => {
 /* Responsive font size */
 @media (max-width: 1080px) {
   .marquee-item {
-    font-size: 1.1rem;
+    font-size: 2rem;
     padding: 0 3rem;
   }
 }
 
 @media (max-width: 768px) {
   .marquee-item {
-    font-size: 1rem;
+    font-size: 1.1rem;
     padding: 0 2rem;
   }
 }

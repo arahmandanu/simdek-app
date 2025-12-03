@@ -3,7 +3,7 @@
     :color="props.mode === 'attract' ? 'primary' : 'white'"
     :elevation="2"
     fixed
-    height="5vh"
+    height="8vh"
     class="kiosk-app-bar"
   >
     <v-container fluid class="d-flex align-center justify-space-between pa-0 px-6">
@@ -13,14 +13,14 @@
           <v-img
             :src="logoUrl"
             :alt="headerTitle"
-            height="45"
-            width="45"
+            height="50"
+            width="50"
             cover
             class="logo-image"
           />
         </div>
         <div class="header-title">
-          <h1 class="text-subtitle-1 font-weight-bold" :class="titleColor">
+          <h1 class="text-h4 font-weight-bold" :class="titleColor">
             {{ headerTitle }}
           </h1>
         </div>
@@ -29,11 +29,11 @@
       <!-- Action Button -->
       <v-btn
         :color="buttonColor"
-        size="large"
+        size="x-large"
         elevation="2"
-        min-width="150"
-        min-height="40"
-        class="text-body-1 font-weight-bold"
+        min-width="180"
+        min-height="50"
+        class="text-h6 font-weight-bold"
         @click="handleModeSwitch"
       >
         {{ buttonText }}
@@ -89,12 +89,12 @@ const handleModeSwitch = () => {
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 5vh !important;
-  max-height: 5vh !important;
+  height: 8vh !important;
+  max-height: 8vh !important;
 }
 
 .kiosk-app-bar :deep(.v-toolbar__content) {
-  height: 5vh !important;
+  height: 8vh !important;
   padding: 0 !important;
 }
 
@@ -104,12 +104,17 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper {
-  width: 45px;
-  height: 45px;
+  width: 50px !important;
+  height: 50px !important;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.logo-wrapper :deep(.v-img) {
+  width: 50px !important;
+  height: 50px !important;
 }
 
 .logo-image {
@@ -117,27 +122,29 @@ const handleModeSwitch = () => {
 }
 
 .header-title h1 {
-  line-height: 1.2;
+  line-height: 1.2 !important;
   white-space: nowrap;
+  font-size: 2rem !important;
 }
 
 /* Ensure minimum touch target size */
 .v-btn {
-  min-width: 150px;
-  min-height: 40px;
-  border-radius: 6px;
+  min-width: 180px !important;
+  min-height: 50px !important;
+  border-radius: 8px !important;
+  font-size: 1.1rem !important;
 }
 
 /* Responsive adjustments for portrait mode */
 @media (max-width: 1080px) {
   .header-title h1 {
-    font-size: 1rem !important;
+    font-size: 2rem !important;
   }
 
   .v-btn {
-    min-width: 130px;
-    min-height: 40px;
-    font-size: 0.95rem !important;
+    min-width: 160px !important;
+    min-height: 48px !important;
+    font-size: 1.5rem !important;
   }
 }
 </style>

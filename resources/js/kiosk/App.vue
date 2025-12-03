@@ -2,63 +2,42 @@
   <v-app>
     <!-- App Bar -->
     <KioskAppBar
-      :mode="kioskMode"
+      :mode="currentMode"
       :logo-url="config.theme.logo"
       :header-title="config.theme.headerTitle"
       @switch-mode="handleModeSwitch"
     />
 
-    <!-- Main Content Area -->
+    <!-- Main Content Area with Router View -->
     <v-main class="kiosk-main">
       <v-container fluid class="pa-0 fill-height">
-        <!-- Attract Mode: Media Slider -->
-        <v-fade-transition mode="out-in" :duration="{ enter: 300, leave: 300 }">
-          <div v-if="showSlider" key="attract" class="content-view slider-view">
-            <MediaSlider height="90vh" :auto-advance="true" />
-          </div>
-
-          <!-- Services Mode: Services Grid -->
-          <div v-else-if="showServices" key="services" class="content-view services-view">
-            <ServicesGrid @select="handleServiceSelect" />
-          </div>
-        </v-fade-transition>
+        <router-view v-slot="{ Component }">
+          <v-fade-transition mode="out-in" :duration="{ enter: 300, leave: 300 }">
+            <component :is="Component" class="content-view" />
+          </v-fade-transition>
+        </router-view>
       </v-container>
     </v-main>
 
     <!-- Footer -->
     <KioskFooter />
-
-    <!-- Print Dialog -->
-    <PrintDialog
-      v-model:show="showPrintDialog"
-      :service="selectedService"
-      @printed="handlePrinted"
-    />
-
-    <!-- Idle Countdown Indicator -->
-    <v-fade-transition>
-      <div v-if="showCountdown" class="countdown-badge">
-        <v-icon icon="mdi-timer-sand" size="large" />
-        <span class="countdown-text">{{ countdownSeconds }}</span>
-      </div>
-    </v-fade-transition>
   </v-app>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import KioskAppBar from '@/kiosk/components/layout/KioskAppBar.vue';
 import KioskFooter from '@/kiosk/components/layout/KioskFooter.vue';
-import MediaSlider from '@/kiosk/components/slider/MediaSlider.vue';
-import ServicesGrid from '@/kiosk/components/services/ServicesGrid.vue';
-import PrintDialog from '@/kiosk/components/services/PrintDialog.vue';
 import { useConfigStore } from '@/kiosk/stores/config';
 import { useSliderStore } from '@/kiosk/stores/slider';
 import { useServicesStore } from '@/kiosk/stores/services';
 import { useOfflineSync } from '@/kiosk/composables/useOfflineSync';
-import { useIdleTimeout } from '@/kiosk/composables/useIdleTimeout';
-import type { KioskMode, ServiceItem } from '@/kiosk/types';
+import type { KioskMode } from '@/kiosk/types';
+
+const router = useRouter();
+const route = useRoute();
 
 // Stores
 const configStore = useConfigStore();
@@ -70,95 +49,26 @@ const { config } = storeToRefs(configStore);
 // Offline sync
 const { syncStore, startAutoSync } = useOfflineSync();
 
-// Kiosk mode state
-const kioskMode = ref<KioskMode>('attract');
-
-// Print dialog state
-const showPrintDialog = ref(false);
-const selectedService = ref<ServiceItem | null>(null);
-
-// Computed properties for view visibility
-const showSlider = computed(() => kioskMode.value === 'attract');
-const showServices = computed(() => kioskMode.value === 'services');
-
-// Idle timeout - return to attract mode after 60 seconds
-const { showCountdown, countdownSeconds, resetTimer, stopTimer } = useIdleTimeout(() => {
-  returnToAttractMode();
+// Computed current mode based on route
+const currentMode = computed<KioskMode>(() => {
+  return route.name === 'services' ? 'services' : 'attract';
 });
 
-// Handle mode switching
+// Handle mode switching via navigation
 const handleModeSwitch = (newMode: KioskMode) => {
-  kioskMode.value = newMode;
-  console.log(`[Kiosk] Mode switched to: ${newMode}`);
+  console.log(`[App] Mode switch requested: ${newMode}`);
 
   if (newMode === 'services') {
-    // Start idle timer when switching to services mode
-    resetTimer();
+    router.push({ name: 'services' });
   } else if (newMode === 'attract') {
-    // Stop idle timer when switching to attract mode
-    stopTimer();
-    // Reset slider to first slide
-    sliderStore.goToSlide(0);
+    router.push({ name: 'attract' });
   }
-};
-
-// Return to attract mode (idle timeout or manual)
-const returnToAttractMode = () => {
-  kioskMode.value = 'attract';
-  showPrintDialog.value = false;
-  selectedService.value = null;
-
-  // Stop the idle timer
-  stopTimer();
-
-  // Reset slider to first slide (don't clear slides)
-  sliderStore.goToSlide(0);
-
-  console.log('[Kiosk] Returned to attract mode');
-};
-
-// Handle service selection
-const handleServiceSelect = (service: ServiceItem) => {
-  console.log('[Kiosk] Service selected:', service.title);
-  console.log('[Kiosk] Service object:', JSON.stringify(service, null, 2));
-  console.log('[Kiosk] Service action:', service.action);
-
-  selectedService.value = service;
-
-  // Handle different service actions
-  if (service.action === 'print') {
-    console.log('[Kiosk] Opening print dialog...');
-    showPrintDialog.value = true;
-  } else if (service.action === 'navigate') {
-    // Future: Navigate to detail view
-    console.log('[Kiosk] Navigate to:', service.route);
-  } else if (service.action === 'external') {
-    // Future: Open external link
-    console.log('[Kiosk] Open external:', service.route);
-  } else {
-    console.log('[Kiosk] Unknown action or no action defined');
-  }
-
-  // Reset idle timer on interaction
-  resetTimer();
-};
-
-// Handle successful print
-const handlePrinted = () => {
-  console.log('[Kiosk] Document printed');
-  showPrintDialog.value = false;
-
-  // Track analytics
-  // Future: Send analytics event
-
-  // Reset idle timer
-  resetTimer();
 };
 
 // Initialize all stores with offline sync
 async function initializeStores() {
   try {
-    console.log('[Kiosk] Initializing stores...');
+    console.log('[App] Initializing stores...');
 
     // Sync all stores in parallel with offline support
     await Promise.all([
@@ -167,9 +77,9 @@ async function initializeStores() {
       syncStore('services', '/api/kiosk/services').then(() => servicesStore.fetchServices()),
     ]);
 
-    console.log('[Kiosk] All stores initialized successfully');
+    console.log('[App] All stores initialized successfully');
   } catch (error) {
-    console.error('[Kiosk] Failed to initialize stores:', error);
+    console.error('[App] Failed to initialize stores:', error);
 
     // Try direct fetch as fallback
     try {
@@ -179,7 +89,7 @@ async function initializeStores() {
         servicesStore.fetchServices().catch((err) => console.error('Services fetch failed:', err)),
       ]);
     } catch (fallbackError) {
-      console.error('[Kiosk] Fallback fetch also failed:', fallbackError);
+      console.error('[App] Fallback fetch also failed:', fallbackError);
     }
   }
 }
@@ -187,7 +97,7 @@ async function initializeStores() {
 // Setup auto-sync (every 5 minutes)
 function setupAutoSync() {
   startAutoSync(async () => {
-    console.log('[Kiosk] Auto-sync triggered');
+    console.log('[App] Auto-sync triggered');
     await Promise.all([
       configStore.fetchConfig().catch((err) => console.error('Config sync failed:', err)),
       sliderStore.fetchSlides().catch((err) => console.error('Slides sync failed:', err)),
@@ -205,59 +115,15 @@ onMounted(async () => {
 
 <style scoped>
 .kiosk-main {
-  padding-top: 5vh;
-  padding-bottom: 5vh;
+  padding-top: 8vh;
+  padding-bottom: 7vh;
   height: 100vh;
   overflow: hidden;
 }
 
 .content-view {
   width: 100%;
-  height: 90vh;
-}
-
-.slider-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #000;
-}
-
-.services-view {
-  overflow-y: auto;
-  background-color: #fafafa;
-}
-
-/* Countdown badge */
-.countdown-badge {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  background: rgba(194, 40, 42, 0.95);
-  color: white;
-  padding: 1.5rem 2rem;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  z-index: 9999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  animation: pulse 1s infinite;
-}
-
-.countdown-text {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+  height: 85vh;
 }
 
 /* Custom scrollbar for kiosk */
@@ -276,14 +142,6 @@ onMounted(async () => {
 
 .kiosk-main :deep(*::-webkit-scrollbar-thumb:hover) {
   background: #555;
-}
-
-/* Disable text selection */
-.content-view {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
 /* Smooth transitions */

@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch } from 'vue';
+import { onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSliderStore } from '@/kiosk/stores/slider';
 import VideoSlide from './VideoSlide.vue';
@@ -59,8 +59,12 @@ let autoAdvanceTimer: number | null = null;
 
 // Handle slide end (for videos and auto-advance)
 const handleSlideEnd = () => {
+  console.log('Slide ended, advancing to next');
   if (props.autoAdvance) {
-    sliderStore.nextSlide();
+    // Add small delay to allow transition
+    setTimeout(() => {
+      sliderStore.nextSlide();
+    }, 300);
   }
 };
 
@@ -71,38 +75,49 @@ const startAutoAdvance = () => {
   // Clear existing timer
   if (autoAdvanceTimer) {
     clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = null;
   }
 
-  // Only set timer for images and PDFs (videos handle their own timing)
+  // Only set timer for images and PDFs (videos handle their own timing via @ended)
   if (currentSlide.value.type === 'image' || currentSlide.value.type === 'pdf') {
     const duration =
       currentSlide.value.duration || (currentSlide.value.type === 'pdf' ? 15000 : 10000);
+
+    console.log(`Setting auto-advance timer for ${duration}ms`);
+
     autoAdvanceTimer = window.setTimeout(() => {
+      console.log('Auto-advance timer triggered');
       sliderStore.nextSlide();
     }, duration);
+  } else {
+    console.log('Video slide - no auto-advance timer (handled by video @ended)');
   }
 };
 
 // Watch for slide changes to restart auto-advance
-watch(currentSlide, () => {
-  startAutoAdvance();
-});
+watch(
+  currentSlide,
+  (newSlide, oldSlide) => {
+    if (newSlide?.id !== oldSlide?.id) {
+      console.log('Slide changed:', {
+        from: oldSlide?.id,
+        to: newSlide?.id,
+        type: newSlide?.type,
+      });
+      startAutoAdvance();
+    }
+  },
+  { immediate: false }
+);
 
-onMounted(() => {
+onMounted(async () => {
   // Fetch slides if not already loaded
   if (!sliderStore.hasSlides) {
-    sliderStore.fetchSlides();
+    await sliderStore.fetchSlides();
   }
 
   // Start auto-advance
   startAutoAdvance();
-});
-
-onUnmounted(() => {
-  // Clean up timer
-  if (autoAdvanceTimer) {
-    clearTimeout(autoAdvanceTimer);
-  }
 });
 </script>
 

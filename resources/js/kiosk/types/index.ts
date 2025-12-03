@@ -57,6 +57,7 @@ export interface ServicesResponse {
 export interface RunningTextMessage {
   id: number;
   text: string;
+  textMakassar?: string;
   order: number;
 }
 
