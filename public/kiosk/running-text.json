@@ -1,0 +1,16 @@
+{
+    "messages": [
+        {
+            "id": 1,
+            "text": "Selamat datang di SIMDES Kabupaten Gowa",
+            "textMakassar": "Sannang Datang ri SIMDES Kabupaten Gowa",
+            "order": 1
+        },
+        {
+            "id": 2,
+            "text": "Layanan mandiri 24\/7 untuk kemudahan Anda",
+            "textMakassar": "Pallayanan 24\/7 untuk kamudahan anjo",
+            "order": 2
+        }
+    ]
+}

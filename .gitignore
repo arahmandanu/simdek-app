@@ -3,7 +3,7 @@
 /public/build
 /public/hot
 /public/storage
-/public/kiosk/*.json
+# /public/kiosk/*.json
 !public/kiosk/.gitkeep
 /public/media/*
 !public/media/.gitkeep

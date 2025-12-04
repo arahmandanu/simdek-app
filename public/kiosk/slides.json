@@ -1,0 +1,48 @@
+{
+    "slides": [
+        {
+            "id": 1,
+            "type": "image",
+            "url": "\/media\/images\/slide-1.jpg",
+            "title": "Slide 1",
+            "duration": 10000,
+            "order": 1,
+            "active": true
+        },
+        {
+            "id": 2,
+            "type": "image",
+            "url": "\/media\/images\/slide-2.jpg",
+            "title": "Slide 2",
+            "duration": 10000,
+            "order": 2,
+            "active": true
+        },
+        {
+            "id": 3,
+            "type": "video",
+            "url": "\/media\/videos\/program.mp4",
+            "title": "Program Video",
+            "order": 3,
+            "active": true
+        },
+        {
+            "id": 4,
+            "type": "pdf",
+            "url": "\/media\/documents\/Dinas-Sosial-Penerima-Bantuan.pdf",
+            "title": "Dinas Sosial - Penerima Bantuan",
+            "duration": 15000,
+            "order": 4,
+            "active": true
+        },
+        {
+            "id": 5,
+            "type": "pdf",
+            "url": "\/media\/documents\/Jml-Penduduk-Berdasarkan-Agama.pdf",
+            "title": "Jumlah Penduduk Berdasarkan Agama",
+            "duration": 15000,
+            "order": 5,
+            "active": true
+        }
+    ]
+}
