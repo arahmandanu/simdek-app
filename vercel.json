@@ -6,7 +6,7 @@
     },
     "build": {
     "env": {
-      "PHP_VERSION": "8.2" // Or your desired PHP version
+      "PHP_VERSION": "8.2"
     },
         "command": "composer install --no-dev && php artisan migrate --force"
     },
