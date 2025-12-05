@@ -18,6 +18,6 @@ Route::get('/', function () {
 });
 
 // Catch-all route for Vue Router HTML5 history mode
-Route::get('/{any}', function () {
-    return view('kiosk');
-})->where('any', '.*');
+// Route::get('/{any}', function () {
+//     return view('kiosk');
+// })->where('any', '.*');
