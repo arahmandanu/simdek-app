@@ -1,7 +1,13 @@
 <template>
   <div class="media-slider" :style="{ height }">
     <v-fade-transition mode="out-in">
-      <div v-if="!sliderStore.hasSlides" class="slider-empty">
+        <WelcomeSlide
+            v-if="showWelcome"
+            :duration="welcomeDuration"
+            :key="'welcome-screen'"
+        />
+
+      <div v-else-if="!sliderStore.hasSlides" class="slider-empty">
         <v-icon size="80" color="grey-lighten-1">mdi-image-multiple</v-icon>
         <p class="text-h5 text-grey-lighten-1 mt-4">Tidak ada konten</p>
       </div>
@@ -35,12 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
+import { onMounted, watch, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSliderStore } from '@/kiosk/stores/slider';
 import VideoSlide from './VideoSlide.vue';
 import ImageSlide from './ImageSlide.vue';
 import PdfSlide from './PdfSlide.vue';
+import WelcomeSlide from './WelcomeSlide.vue'; // Pastikan komponen ini diimpor
 
 interface Props {
   height?: string;
@@ -54,8 +61,22 @@ const props = withDefaults(defineProps<Props>(), {
 
 const sliderStore = useSliderStore();
 const { currentSlide } = storeToRefs(sliderStore);
+// State lokal untuk mengontrol tampilan Welcome Slide
+const welcomeDuration = 5000; // Durasi tampil Welcome Slide (5 detik)
+const showWelcome = ref(true); // 'ref' is now correctly defined
 
 let autoAdvanceTimer: number | null = null;
+
+// Fungsi yang dipanggil setelah Welcome Slide selesai
+const startSlider = () => {
+    // 1. Sembunyikan Welcome Slide
+    showWelcome.value = false;
+
+    // 2. Mulai rotasi slide media
+    startAutoAdvance();
+
+    console.log('Welcome screen ended, starting main slider rotation.');
+};
 
 // Handle slide end (for videos and auto-advance)
 const handleSlideEnd = () => {
@@ -70,7 +91,8 @@ const handleSlideEnd = () => {
 
 // Start auto-advance timer for images and PDFs
 const startAutoAdvance = () => {
-  if (!props.autoAdvance || !currentSlide.value) return;
+  // Hanya jalankan jika kita sudah melewati fase 'Welcome' dan tidak ada slide aktif
+  if (showWelcome.value || !props.autoAdvance || !currentSlide.value) return;
 
   // Clear existing timer
   if (autoAdvanceTimer) {
@@ -78,7 +100,7 @@ const startAutoAdvance = () => {
     autoAdvanceTimer = null;
   }
 
-  // Only set timer for images and PDFs (videos handle their own timing via @ended)
+  // Hanya set timer untuk images dan PDFs
   if (currentSlide.value.type === 'image' || currentSlide.value.type === 'pdf') {
     const duration =
       currentSlide.value.duration || (currentSlide.value.type === 'pdf' ? 15000 : 10000);
@@ -94,11 +116,11 @@ const startAutoAdvance = () => {
   }
 };
 
-// Watch for slide changes to restart auto-advance
+// Watch untuk perubahan slide (hanya bekerja setelah fase Welcome)
 watch(
   currentSlide,
   (newSlide, oldSlide) => {
-    if (newSlide?.id !== oldSlide?.id) {
+    if (!showWelcome.value && newSlide?.id !== oldSlide?.id) {
       console.log('Slide changed:', {
         from: oldSlide?.id,
         to: newSlide?.id,
@@ -111,13 +133,16 @@ watch(
 );
 
 onMounted(async () => {
-  // Fetch slides if not already loaded
+  // 1. Ambil data slide terlebih dahulu
   if (!sliderStore.hasSlides) {
     await sliderStore.fetchSlides();
   }
 
-  // Start auto-advance
-  startAutoAdvance();
+  // 2. Mulai timer untuk Welcome Slide
+  window.setTimeout(() => {
+      startSlider();
+  }, welcomeDuration);
+
 });
 </script>
 

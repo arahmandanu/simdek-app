@@ -20,7 +20,7 @@
           />
         </div>
         <div class="header-title">
-          <h1 class="text-h4 font-weight-bold" :class="titleColor">
+          <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
             {{ headerTitle }}
           </h1>
         </div>
@@ -124,7 +124,6 @@ const handleModeSwitch = () => {
 .header-title h1 {
   line-height: 1.2 !important;
   white-space: nowrap;
-  font-size: 2rem !important;
 }
 
 /* Ensure minimum touch target size */
@@ -137,14 +136,14 @@ const handleModeSwitch = () => {
 
 /* Responsive adjustments for portrait mode */
 @media (max-width: 1080px) {
-  .header-title h1 {
-    font-size: 2rem !important;
-  }
+    .custom-font-bar {
+        font-size: 2vh !important;
+    }
 
-  .v-btn {
+    .v-btn {
     min-width: 160px !important;
     min-height: 48px !important;
     font-size: 1.5rem !important;
-  }
+    }
 }
 </style>

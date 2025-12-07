@@ -103,7 +103,7 @@ onMounted(async () => {
   display: inline-block;
   padding: 0 4rem;
   color: white;
-  font-size: 2rem;
+  font-size: 2vh !important;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
