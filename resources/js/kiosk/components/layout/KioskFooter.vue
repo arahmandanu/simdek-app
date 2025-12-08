@@ -104,8 +104,8 @@ onMounted(async () => {
   padding: 0 4rem;
   color: white;
   font-size: 2vh !important;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  letter-spacing: -3px;
 }
 
 @keyframes marquee {

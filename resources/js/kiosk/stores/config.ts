@@ -8,7 +8,7 @@ export const useConfigStore = defineStore('config', () => {
     theme: {
       primaryColor: '#c2282a',
       logo: '',
-      headerTitle: 'SIMDES Kiosk',
+      headerTitle: 'SIGMA Kiosk',
     },
     idleTimeout: {
       enabled: true,
@@ -51,7 +51,7 @@ export const useConfigStore = defineStore('config', () => {
       theme: {
         primaryColor: '#c2282a',
         logo: '',
-        headerTitle: 'SIMDES Kiosk',
+        headerTitle: 'SIGMA Kiosk',
       },
       idleTimeout: {
         enabled: true,

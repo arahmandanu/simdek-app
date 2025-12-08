@@ -16,9 +16,9 @@ export function useOfflineSync() {
 
   // Configure localforage
   const db = localforage.createInstance({
-    name: 'simdes-kiosk',
+    name: 'sigma-kiosk',
     storeName: 'api-cache',
-    description: 'SIMDES Kiosk API Cache',
+    description: 'SIGMA Kiosk API Cache',
   });
 
   /**

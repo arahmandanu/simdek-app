@@ -1,4 +1,4 @@
-// TypeScript Interfaces for SIMDES Kiosk
+// TypeScript Interfaces for SIGMA Kiosk
 
 /**
  * Kiosk Configuration

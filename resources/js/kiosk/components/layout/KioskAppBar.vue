@@ -13,8 +13,8 @@
           <v-img
             :src="logoUrl"
             :alt="headerTitle"
-            height="50"
-            width="50"
+            height="150" 
+            width="150"
             cover
             class="logo-image"
           />
@@ -104,8 +104,8 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper {
-  width: 50px !important;
-  height: 50px !important;
+  width: 120px !important;
+  height: 120px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,8 +113,8 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper :deep(.v-img) {
-  width: 50px !important;
-  height: 50px !important;
+  width: 120px !important;
+  height: 120px !important;
 }
 
 .logo-image {

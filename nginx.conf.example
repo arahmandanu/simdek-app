@@ -1,4 +1,4 @@
-# Nginx Configuration for SIMDES Kiosk
+# Nginx Configuration for SIGMA Kiosk
 
 server {
     listen 80;

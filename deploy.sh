@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# SIMDES Kiosk Deployment Script
+# SIGMA Kiosk Deployment Script
 # This script builds and prepares the kiosk application for production deployment
 
 set -e  # Exit on error
 
-echo "🚀 Starting SIMDES Kiosk Deployment..."
+echo "🚀 Starting SIGMA Kiosk Deployment..."
 
 # Check if running in correct directory
 if [ ! -f "artisan" ]; then

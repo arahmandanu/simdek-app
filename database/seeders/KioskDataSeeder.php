@@ -178,7 +178,7 @@ class KioskDataSeeder extends Seeder
             'theme' => [
                 'primaryColor' => '#c2282a',
                 'logo' => '/logo.png',
-                'headerTitle' => 'SIMDES - Kabupaten Gowa',
+                'headerTitle' => 'SIGMA - Kabupaten Gowa',
             ],
             'idleTimeout' => [
                 'enabled' => true,
@@ -191,8 +191,8 @@ class KioskDataSeeder extends Seeder
             'messages' => [
                 [
                     'id' => 1,
-                    'text' => 'Selamat datang di SIMDES Kabupaten Gowa',
-                    'textMakassar' => 'Sannang Datang ri SIMDES Kabupaten Gowa',
+                    'text' => 'Selamat datang di SIGMA Kabupaten Gowa',
+                    'textMakassar' => 'Sannang Datang ri SIGMA Kabupaten Gowa',
                     'order' => 1,
                 ],
                 [

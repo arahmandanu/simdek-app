@@ -2,7 +2,7 @@
     "theme": {
         "primaryColor": "#c2282a",
         "logo": "\/logo.png",
-        "headerTitle": "SIMDES - Kabupaten Gowa"
+        "headerTitle": "SIGMA - Kabupaten Gowa"
     },
     "idleTimeout": {
         "enabled": true,
