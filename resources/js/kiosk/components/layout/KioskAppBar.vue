@@ -13,15 +13,17 @@
           <v-img
             :src="logoUrl"
             :alt="headerTitle"
-            height="150" 
-            width="150"
             cover
             class="logo-image"
           />
         </div>
         <div class="header-title">
           <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
-            {{ headerTitle }}
+            SIGMA
+          </h1>
+
+          <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
+            SYSTEM INFORMASI DIGITAL GOWA MAJU
           </h1>
         </div>
       </div>
@@ -104,8 +106,8 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper {
-  width: 120px !important;
-  height: 120px !important;
+  width: 100px !important;
+  height: 100px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,8 +115,8 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper :deep(.v-img) {
-  width: 120px !important;
-  height: 120px !important;
+  width: 100px !important;
+  height: 100px !important;
 }
 
 .logo-image {
@@ -137,7 +139,7 @@ const handleModeSwitch = () => {
 /* Responsive adjustments for portrait mode */
 @media (max-width: 1080px) {
     .custom-font-bar {
-        font-size: 2vh !important;
+        font-size: 1.3vh !important;
     }
 
     .v-btn {
