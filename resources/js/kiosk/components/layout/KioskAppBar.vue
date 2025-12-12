@@ -7,26 +7,44 @@
     class="kiosk-app-bar"
   >
     <v-container fluid class="d-flex align-center justify-space-between pa-0 px-6">
-      <!-- Logo Section -->
-      <div class="logo-section d-flex align-center">
-        <div class="logo-wrapper">
-          <v-img
+        <!-- Logo Section -->
+        <div class="logo-wrapper flex-shrink-0">
+            <v-img
             :src="logoUrl"
             :alt="headerTitle"
             cover
             class="logo-image"
-          />
+            />
         </div>
-        <div class="header-title">
-          <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
-            SIGMA
-          </h1>
 
-          <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
-            SYSTEM INFORMASI DIGITAL GOWA MAJU
-          </h1>
+        <div class="header-title flex-grow-1 mx-4 text-center">
+            <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
+                SIGMA
+            </h1>
+
+            <h1 class="text-h4 custom-font-bar-bottom" :class="titleColor">
+                SYSTEM INFORMASI DIGITAL GOWA MAJU
+            </h1>
         </div>
-      </div>
+        <!-- <div class="logo-section d-flex align-center">
+            <div class="logo-wrapper flex-shrink-0">
+            <v-img
+                :src="logoUrl"
+                :alt="headerTitle"
+                cover
+                class="logo-image"
+            />
+            </div>
+            <div class="header-title ms-4">
+            <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
+                SIGMA
+            </h1>
+
+            <h1 class="text-h4 custom-font-bar-bottom" :class="titleColor">
+                SYSTEM INFORMASI DIGITAL GOWA MAJU
+            </h1>
+            </div>
+        </div> -->
 
       <!-- Action Button -->
       <v-btn
@@ -106,8 +124,8 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper {
-  width: 100px !important;
-  height: 100px !important;
+  width: 140px !important;
+  height: 140px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,8 +133,8 @@ const handleModeSwitch = () => {
 }
 
 .logo-wrapper :deep(.v-img) {
-  width: 100px !important;
-  height: 100px !important;
+  width: 140px !important;
+  height: 140px !important;
 }
 
 .logo-image {
@@ -139,7 +157,11 @@ const handleModeSwitch = () => {
 /* Responsive adjustments for portrait mode */
 @media (max-width: 1080px) {
     .custom-font-bar {
-        font-size: 1.3vh !important;
+        font-size: 3vh !important;
+    }
+
+    .custom-font-bar-bottom {
+        font-size: 1.1vh !important;
     }
 
     .v-btn {
