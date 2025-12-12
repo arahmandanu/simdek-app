@@ -6,7 +6,7 @@
     height="8vh"
     class="kiosk-app-bar"
   >
-    <v-container fluid class="d-flex align-center justify-space-between pa-0 px-6">
+    <v-container fluid class="d-flex align-center justify-space-between">
         <!-- Logo Section -->
         <div class="logo-wrapper flex-shrink-0">
             <v-img
@@ -17,7 +17,7 @@
             />
         </div>
 
-        <div class="header-title flex-grow-1 mx-4 text-center">
+        <div class="header-title flex-grow-1 text-center">
             <h1 class="text-h4 font-weight-bold custom-font-bar" :class="titleColor">
                 SIGMA
             </h1>
@@ -47,17 +47,20 @@
         </div> -->
 
       <!-- Action Button -->
-      <v-btn
-        :color="buttonColor"
-        size="x-large"
-        elevation="2"
-        min-width="180"
-        min-height="50"
-        class="text-h6 font-weight-bold"
-        @click="handleModeSwitch"
-      >
-        {{ buttonText }}
-      </v-btn>
+       <div class="header-button flex-shrink-0">
+            <v-btn
+            :color="buttonColor"
+            size="x-large"
+            elevation="2"
+            min-width="180"
+            min-height="50"
+            class="text-h6 font-weight-bold"
+            @click="handleModeSwitch"
+            >
+            {{ buttonText }}
+        </v-btn>
+       </div>
+
     </v-container>
   </v-app-bar>
 </template>
@@ -154,20 +157,26 @@ const handleModeSwitch = () => {
   font-size: 1.1rem !important;
 }
 
+.header-button{
+    width: auto;
+    height: auto;
+}
 /* Responsive adjustments for portrait mode */
 @media (max-width: 1080px) {
     .custom-font-bar {
         font-size: 3vh !important;
+        letter-spacing: -1px !important;
     }
 
     .custom-font-bar-bottom {
-        font-size: 1.1vh !important;
+        font-size: 1.9vh !important;
+        letter-spacing: -1px !important;
     }
 
     .v-btn {
-    min-width: 160px !important;
-    min-height: 48px !important;
-    font-size: 1.5rem !important;
+        min-width: 160px !important;
+        min-height: 48px !important;
+        font-size: 1.5rem !important;
     }
 }
 </style>
