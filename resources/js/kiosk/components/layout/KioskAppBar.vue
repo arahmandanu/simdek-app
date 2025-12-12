@@ -85,7 +85,7 @@ interface Emits {
 const emit = defineEmits<Emits>();
 
 const buttonText = computed(() => {
-  return props.mode === 'attract' ? 'MENU LAYANAN' : 'KEMBALI';
+  return props.mode === 'attract' ? 'MENU' : 'KEMBALI';
 });
 
 const buttonColor = computed(() => {
