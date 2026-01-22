@@ -1,5 +1,10 @@
 import { ref } from 'vue';
 
+export interface UserPrintData {
+  nama: string;
+  ktp: string;
+}
+
 export function usePrint() {
   const isPrinting = ref(false);
   const printError = ref<string | null>(null);
@@ -7,10 +12,16 @@ export function usePrint() {
   /**
    * Trigger browser print dialog
    * @param documentUrl - Optional URL to print specific document
+   * @param userData - Optional user data (name, KTP number)
    */
-  const printDocument = async (documentUrl?: string) => {
+  const printDocument = async (documentUrl?: string, userData?: UserPrintData) => {
     isPrinting.value = true;
     printError.value = null;
+
+    // Log user data if provided (for now - future: send to backend)
+    if (userData) {
+      console.log('Print requested by:', userData);
+    }
 
     try {
       if (documentUrl) {
